@@ -18,6 +18,7 @@ export interface AssessmentData {
   companyName: string;
   industry: string;
   companySize: string;
+  region?: string;
   responses: Record<string, number>;
 }
 
@@ -82,6 +83,65 @@ export interface PillarQuestionsUnique {
   [pillar: string]: {
     [subcategory: string]: UniqueCSVQuestion[];
   };
+}
+
+export interface AirtableQuestionRow {
+  "Question ID": string;
+  "Subcategory ID": string;
+  Pillar: string;
+  Subcategory: string;
+  Question: string;
+  Region?: string;
+  "Assessment Type"?: string;
+  "Active?"?: string;
+}
+
+export type PillarCategoryQuestions = {
+  [pillar: string]: {
+    [subcategory: string]: UniqueCSVQuestion[];
+  };
+};
+
+export function parseAirtableCSVByRegion(csvText: string, selectedRegion: string): PillarCategoryQuestions {
+  const parsed = Papa.parse(csvText, { header: true });
+  const regionNorm = (selectedRegion || 'Global').toLowerCase();
+  const regMatches = (cell?: string) => {
+    if (!cell) return false;
+    const tokens = cell.split(',').map(s => s.trim().toLowerCase());
+    if (tokens.includes('global')) return true;
+    if (regionNorm === 'global') return true;
+    // Normalize common aliases
+    const aliases: Record<string, string[]> = {
+      'middle east': ['me', 'middle east', 'gulf', 'mena'],
+      'europe': ['eu', 'europe', 'europa']
+    };
+    for (const [key, vals] of Object.entries(aliases)) {
+      if (vals.includes(regionNorm)) {
+        return tokens.some(t => vals.includes(t));
+      }
+    }
+    return tokens.includes(regionNorm);
+  };
+
+  const questions: PillarCategoryQuestions = {};
+  (parsed.data as AirtableQuestionRow[]).forEach((row) => {
+    if (!row || row["Question ID"] === undefined) return;
+    const active = (row["Active?"] || '').toString().toLowerCase() === 'true';
+    if (!active) return;
+    if (!row.Pillar || !row.Subcategory || !row.Question) return;
+    if (!regMatches(row.Region)) return;
+
+    if (!questions[row.Pillar]) questions[row.Pillar] = {};
+    if (!questions[row.Pillar][row.Subcategory]) questions[row.Pillar][row.Subcategory] = [];
+
+    questions[row.Pillar][row.Subcategory].push({
+      pillar: row.Pillar,
+      subcategory: row.Subcategory,
+      question: row.Question,
+      recommendations: []
+    });
+  });
+  return questions;
 }
 
 // Standard 5-point scale options for all questions

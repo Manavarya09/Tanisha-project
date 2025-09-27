@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
@@ -7,12 +7,14 @@ import { Label } from '../components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { Progress } from '../components/ui/progress';
 import { ChevronLeft, ChevronRight, Building, Users, BarChart3, Server } from 'lucide-react';
-import { assessmentQuestions, AssessmentData, parseAssessmentCSV, PillarQuestions } from '../utils/assessmentLogic';
+import { assessmentQuestions, AssessmentData, parseAssessmentCSV, PillarQuestions, parseAirtableCSVByRegion, PillarQuestionsUnique } from '../utils/assessmentLogic';
 import csvText from '../../AI_Readiness_Assessment_Core35.csv?raw';
-import { parseAssessmentCSVUnique, PillarQuestionsUnique } from '../utils/assessmentLogic';
+import airtableCsv from '../../Airtable AI Readiness File To Import (1).csv?raw';
+import { parseAssessmentCSVUnique } from '../utils/assessmentLogic';
 import AnimatedContent from '../components/AnimatedContent';
 
-const pillarQuestions: PillarQuestionsUnique = parseAssessmentCSVUnique(csvText);
+// Build questions from Airtable CSV filtered by region (includes Global and region-specific)
+// Fallback to Core35 if needed
 
 export default function AssessmentForm() {
   const navigate = useNavigate();
@@ -21,6 +23,7 @@ export default function AssessmentForm() {
     companyName: '',
     industry: '',
     companySize: '',
+    region: 'Global',
     responses: {}
   });
 
@@ -78,12 +81,18 @@ export default function AssessmentForm() {
     5: 'AI Governance & Ethics',
     6: 'AI Organization & Culture',
     7: 'Data Readiness'
-  };
+  } as const;
+
+  const region = assessmentData.region || 'Global';
+  const pillarQuestions = useMemo<PillarQuestionsUnique>(() => {
+    const pq = parseAirtableCSVByRegion(airtableCsv, region);
+    const fallback = parseAssessmentCSVUnique(csvText);
+    return { ...fallback, ...pq };
+  }, [region]);
 
   const getQuestionsForStep = (step: number) => {
     const pillar = pillarMap[step as keyof typeof pillarMap];
     if (!pillar || !pillarQuestions[pillar]) return [];
-    // Flatten questions grouped by subcategory for rendering
     return Object.entries(pillarQuestions[pillar]).flatMap(([subcategory, questions]) =>
       questions.map(q => ({ ...q, subcategory }))
     );
@@ -172,6 +181,22 @@ export default function AssessmentForm() {
             <SelectItem value="201-1000">201-1,000 employees</SelectItem>
             <SelectItem value="1001-5000">1,001-5,000 employees</SelectItem>
             <SelectItem value="5000+">5,000+ employees</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div>
+        <Label htmlFor="region">Region</Label>
+        <Select value={assessmentData.region} onValueChange={(value) => updateCompanyInfo('region', value)}>
+          <SelectTrigger className="mt-1">
+            <SelectValue placeholder="Select your region" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="Global">Global</SelectItem>
+            <SelectItem value="Middle East">Middle East</SelectItem>
+            <SelectItem value="Europe">Europe</SelectItem>
+            <SelectItem value="EU">EU</SelectItem>
+            <SelectItem value="ME">ME</SelectItem>
           </SelectContent>
         </Select>
       </div>

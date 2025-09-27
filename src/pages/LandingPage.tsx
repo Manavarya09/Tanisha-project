@@ -1,281 +1,321 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  ChevronDown, 
-  Search, 
-  Users, 
-  CheckCircle, 
-  Award, 
-  BarChart3, 
-  Database, 
-  Cog, 
-  TrendingUp, 
-  Lightbulb, 
-  Shield, 
-  UserCheck, 
-  PieChart, 
-  FileText, 
-  ArrowRight, 
-  Phone, 
-  Mail, 
-  MapPin, 
-  Twitter, 
-  Facebook, 
-  Linkedin, 
-  Instagram, 
-  Menu, 
-  X, 
-  Brain, 
-  ArrowUp 
-} from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '../components/ui/button';
-import DarkVeil from '../components/DarkVeil';
-import AnimatedContent from '../components/AnimatedContent';
+import React from 'react';
 
-const AIReadinessLanding = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [activeSlide, setActiveSlide] = useState(0);
-  const [showBackToTop, setShowBackToTop] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-      setShowBackToTop(window.scrollY > 300);
-    };
-
-    const slideInterval = setInterval(() => {
-      setActiveSlide(prev => (prev + 1) % 2);
-    }, 5000);
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      clearInterval(slideInterval);
-    };
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  // Pillars for the Seven Pillars section
-  const pillars = [
-    { icon: <Users className="h-8 w-8 text-white" />, title: 'Strategy & Leadership', description: 'Vision, sponsorship, literacy, board awareness, national alignment' },
-    { icon: <BarChart3 className="h-8 w-8 text-white" />, title: 'Business Readiness', description: 'Use cases, ROI, KPIs, innovation, stakeholder communication' },
-    { icon: <Cog className="h-8 w-8 text-white" />, title: 'Infrastructure Readiness', description: 'Cloud/on-prem, cybersecurity, legacy integration, scalability, disaster recovery' },
-    { icon: <UserCheck className="h-8 w-8 text-white" />, title: 'People & Skills', description: 'AI literacy, upskilling, leadership training, change management, inclusivity' },
-    { icon: <Shield className="h-8 w-8 text-white" />, title: 'AI Governance & Ethics', description: 'Principles, privacy, risk, explainability, accountability' },
-    { icon: <Lightbulb className="h-8 w-8 text-white" />, title: 'AI Organization & Culture', description: 'Innovation, collaboration, champions, agility, recognition' },
-    { icon: <Database className="h-8 w-8 text-white" />, title: 'Data Readiness', description: 'Governance, quality, metadata, observability, accessibility' },
-  ];
-
-  // Features for the Assessment Features section
-  const features = [
-    { icon: <BarChart3 className="h-8 w-8 text-white" />, title: 'Interactive Dashboard', description: 'Visualize your AI readiness with radar charts, progress bars, and comprehensive scoring metrics', link: '/dashboard' },
-    { icon: <BarChart3 className="h-8 w-8 text-white" />, title: 'Industry Benchmarking', description: 'Compare your scores against industry standards and see how you rank among peers', link: '/benchmarking' },
-    { icon: <Lightbulb className="h-8 w-8 text-white" />, title: 'Smart Recommendations', description: 'Get personalized action plans and recommendations based on your assessment results', link: '/recommendations' },
-    { icon: <BarChart3 className="h-8 w-8 text-white" />, title: 'Detailed Reports', description: 'Generate comprehensive PDF reports with detailed insights and actionable recommendations', link: '/detailed-report' },
-    { icon: <CheckCircle className="h-8 w-8 text-white" />, title: 'Multi-Step Assessment', description: 'Complete evaluation across 133+ questions covering all four critical AI readiness pillars', link: '/assessment' },
-  ];
-
+const LandingPage: React.FC = () => {
   return (
-    <>
-      {/* Animated DarkVeil Background */}
-      <div className="fixed inset-0 w-full h-full z-0 pointer-events-none">
-        <DarkVeil hueShift={20} noiseIntensity={0.08} scanlineIntensity={0.12} speed={0.7} scanlineFrequency={2.5} warpAmount={0.08} resolutionScale={1} />
-      </div>
-      <div className="min-h-screen relative z-10 text-white">
-        {/* Navbar & Carousel */}
-        <nav className={`navbar navbar-expand-lg navbar-dark px-5 py-3 py-lg-0 bg-dark ${isScrolled ? 'scrolled' : ''}`}>
-          <div className="flex items-center justify-between w-full">
-            <a href="#" className="navbar-brand p-0 flex items-center">
-              <span className="text-white text-2xl font-bold flex items-center"><i className="fa fa-brain me-2" />AI Readiness</span>
-            </a>
-            <div className="flex items-center gap-4">
-              <Button onClick={() => navigate('/assessment')} className="bg-primary text-white">Start Assessment</Button>
+    <div className="min-h-screen bg-white">
+      {/* Navbar & Carousel Start */}
+      <div className="container-fluid position-relative p-0">
+        <nav className="navbar navbar-expand-lg navbar-dark px-5 py-3 py-lg-0">
+          <a href="/" className="navbar-brand p-0">
+            <h1 className="m-0"><i className="fa fa-brain me-2"></i>AI Readiness</h1>
+          </a>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span className="fa fa-bars"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarCollapse">
+            <div className="navbar-nav ms-auto py-0">
+              <a href="/" className="nav-item nav-link active">Home</a>
+              <a href="/assessment" className="nav-item nav-link">Assessment</a>
+              <a href="/results" className="nav-item nav-link">Results</a>
+              <div className="nav-item dropdown">
+                <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">Reports</a>
+                <div className="dropdown-menu m-0">
+                  <a href="/results" className="dropdown-item">Dashboard</a>
+                  <a href="/report" className="dropdown-item">Detailed Report</a>
+                </div>
+              </div>
+              <div className="nav-item dropdown">
+                <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">Tools</a>
+                <div className="dropdown-menu m-0">
+                  <a href="/benchmarking" className="dropdown-item">Benchmarking</a>
+                  <a href="/recommendations" className="dropdown-item">Recommendations</a>
+                  <a href="#pillars" className="dropdown-item">Seven Pillars</a>
+                </div>
+              </div>
+              <a href="#contact" className="nav-item nav-link">Contact</a>
             </div>
+            <button type="button" className="btn text-primary ms-3" data-bs-toggle="modal" data-bs-target="#searchModal"><i className="fa fa-search"></i></button>
+            <a href="#" className="btn btn-primary py-2 px-4 ms-3" data-bs-toggle="modal" data-bs-target="#assessmentChoiceModal">Start Assessment</a>
           </div>
         </nav>
-        {/* Hero Section (Carousel) */}
-        <section className="relative w-full h-[500px] flex items-center justify-center bg-header">
-          <div className="absolute inset-0 bg-dark bg-opacity-70 flex items-center justify-center">
-            <div className="text-center max-w-2xl mx-auto">
-              <h1 className="text-5xl font-bold text-white mb-6">AI Readiness Assessment Platform</h1>
-              <p className="text-xl text-white mb-8">Comprehensive & Data-Driven AI Readiness Assessment for Organizations</p>
-              <Button onClick={() => navigate('/assessment')} className="bg-primary text-white text-lg px-8 py-3">Start Assessment</Button>
+
+        <div id="header-carousel" className="carousel slide carousel-fade" data-bs-ride="carousel">
+          <div className="carousel-inner">
+            <div className="carousel-item active">
+              <img className="w-100" src="/img/carousel-1.jpg" alt="AI Assessment" />
+              <div className="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                <div className="p-3" style={{ maxWidth: 900 }}>
+                  <h5 className="text-white text-uppercase mb-3 animated slideInDown">Comprehensive & Data-Driven</h5>
+                  <h1 className="display-1 text-white mb-md-4 animated zoomIn">AI Readiness Assessment Platform</h1>
+                  <a href="#" className="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" data-bs-toggle="modal" data-bs-target="#assessmentChoiceModal">Start Assessment</a>
+                  <a href="#pillars" className="btn btn-outline-light py-md-3 px-md-5 animated slideInRight">Learn More</a>
+                </div>
+              </div>
+            </div>
+            <div className="carousel-item">
+              <img className="w-100" src="/img/carousel-2.jpg" alt="Seven Pillars" />
+              <div className="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                <div className="p-3" style={{ maxWidth: 900 }}>
+                  <h5 className="text-white text-uppercase mb-3 animated slideInDown">Seven Critical Pillars</h5>
+                  <h1 className="display-1 text-white mb-md-4 animated zoomIn">Evaluate Your Organization's AI Readiness</h1>
+                  <a href="#" className="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" data-bs-toggle="modal" data-bs-target="#assessmentChoiceModal">Begin Evaluation</a>
+                  <a href="/benchmarking" className="btn btn-outline-light py-md-3 px-md-5 animated slideInRight">View Benchmarks</a>
+                </div>
+              </div>
             </div>
           </div>
-        </section>
-        {/* About Section */}
-        <section className="container mx-auto py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div>
-              <h5 className="text-primary text-lg font-bold mb-2">About the Platform</h5>
-              <h2 className="text-3xl font-bold mb-4 text-white">Comprehensive AI Readiness Assessment for Modern Organizations</h2>
-              <p className="mb-4 text-white">Our AI Readiness Assessment Platform provides a comprehensive evaluation of your organization's preparedness for artificial intelligence adoption. Through our four-pillar framework, we analyze your organizational structure, data infrastructure, business processes, and technical capabilities to deliver actionable insights and recommendations.</p>
-              <ul className="mb-4 space-y-2">
-                <li className="flex items-center text-white"><i className="fa fa-check text-primary mr-2" />Data-Driven Analysis</li>
-                <li className="flex items-center text-white"><i className="fa fa-check text-primary mr-2" />Industry Benchmarking</li>
-                <li className="flex items-center text-white"><i className="fa fa-check text-primary mr-2" />Actionable Insights</li>
-                <li className="flex items-center text-white"><i className="fa fa-check text-primary mr-2" />Personalized Recommendations</li>
-              </ul>
-              {/* Moved down for spacing */}
-              <div className="flex items-center mb-4 mt-8">
-                <div className="bg-primary rounded-full w-16 h-16 flex items-center justify-center mr-4"><i className="fa fa-chart-line text-white text-2xl" /></div>
-                <div>
-                  <h5 className="mb-2 text-white">Get your AI readiness score</h5>
+          <button className="carousel-control-prev" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">
+            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span className="visually-hidden">Previous</span>
+          </button>
+          <button className="carousel-control-next" type="button" data-bs-target="#header-carousel" data-bs-slide="next">
+            <span className="carousel-control-next-icon" aria-hidden="true"></span>
+            <span className="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+      {/* Navbar & Carousel End */}
+
+      {/* Search Modal */}
+      <div className="modal fade" id="searchModal" tabIndex={-1}>
+        <div className="modal-dialog modal-fullscreen">
+          <div className="modal-content" style={{ background: 'rgba(204, 153, 102, .7)' }}>
+            <div className="modal-header border-0">
+              <button type="button" className="btn bg-white btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body d-flex align-items-center justify-content-center">
+              <div className="input-group" style={{ maxWidth: 600 }}>
+                <input type="text" className="form-control bg-transparent border-primary p-3" placeholder="Type search keyword" />
+                <button className="btn btn-primary px-4"><i className="bi bi-search"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Assessment Choice Modal */}
+      <div className="modal fade" id="assessmentChoiceModal" tabIndex={-1} aria-labelledby="assessmentChoiceModalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="assessmentChoiceModalLabel">Choose Assessment Type</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              <p className="mb-4">Select how you want to proceed with your AI readiness assessment.</p>
+              <div className="d-grid gap-3">
+                <a href="/assessment" className="btn btn-primary btn-lg" data-bs-dismiss="modal">Free Assessment</a>
+                <a href="/paid-assessment" className="btn btn-dark btn-lg" data-bs-dismiss="modal">Paid Assessment</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* About Start */}
+      <div className="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div className="container py-5">
+          <div className="row g-5">
+            <div className="col-lg-7">
+              <div className="section-title position-relative pb-3 mb-5">
+                <h5 className="fw-bold text-primary text-uppercase">About the Platform</h5>
+                <h1 className="mb-0">Comprehensive AI Readiness Assessment for Modern Organizations</h1>
+              </div>
+              <p className="mb-4">Our AI Readiness Assessment Platform provides a comprehensive evaluation of your organization's preparedness for artificial intelligence adoption. Through our four-pillar framework, we analyze your organizational structure, data infrastructure, business processes, and technical capabilities to deliver actionable insights and recommendations.</p>
+              <div className="row g-0 mb-3">
+                <div className="col-sm-6 wow zoomIn" data-wow-delay="0.2s">
+                  <h5 className="mb-3"><i className="fa fa-check text-primary me-3"></i>Data-Driven Analysis</h5>
+                  <h5 className="mb-3"><i className="fa fa-check text-primary me-3"></i>Industry Benchmarking</h5>
+                </div>
+                <div className="col-sm-6 wow zoomIn" data-wow-delay="0.4s">
+                  <h5 className="mb-3"><i className="fa fa-check text-primary me-3"></i>Actionable Insights</h5>
+                  <h5 className="mb-3"><i className="fa fa-check text-primary me-3"></i>Personalized Recommendations</h5>
+                </div>
+              </div>
+              <div className="d-flex align-items-center mb-4 wow fadeIn" data-wow-delay="0.6s">
+                <div className="bg-primary d-flex align-items-center justify-content-center rounded" style={{ width: 60, height: 60 }}>
+                  <i className="fa fa-chart-line text-white"></i>
+                </div>
+                <div className="ps-4">
+                  <h5 className="mb-2">Get your AI readiness score</h5>
                   <h4 className="text-primary mb-0">133+ Assessment Questions</h4>
                 </div>
               </div>
-              <Button onClick={() => navigate('/assessment')} className="bg-primary text-white mt-4">Start Assessment</Button>
+              <a href="#" className="btn btn-primary py-3 px-5 mt-3 wow zoomIn" data-wow-delay="0.9s" data-bs-toggle="modal" data-bs-target="#assessmentChoiceModal">Start Assessment</a>
             </div>
-            <div className="min-h-[400px] flex items-center justify-center">
-              <img src="/public/vite.svg" alt="About" className="rounded-xl w-full h-full object-cover" />
-            </div>
-          </div>
-        </section>
-        {/* Seven Pillars Section */}
-        <section className="container mx-auto py-16" id="pillars">
-          <div className="text-center mb-12">
-            <h5 className="text-primary text-lg font-bold mb-2">Seven Critical Pillars</h5>
-            <h2 className="text-3xl font-bold mb-4 text-white">Comprehensive AI Readiness Evaluation Framework</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {pillars.map((pillar, idx) => (
-              <AnimatedContent key={idx}>
-                <div className="bg-primary rounded-xl p-6 text-white shadow flex flex-col items-center justify-center">
-                  <div className="mb-4">{pillar.icon}</div>
-                  <h4 className="font-bold mb-2">{pillar.title}</h4>
-                  <p className="text-center text-white text-sm">{pillar.description}</p>
-                </div>
-              </AnimatedContent>
-            ))}
-          </div>
-        </section>
-        {/* Assessment Features Section */}
-        <section className="container mx-auto py-16">
-          <div className="text-center mb-12">
-            <h5 className="text-primary text-lg font-bold mb-2">Assessment Features</h5>
-            <h2 className="text-3xl font-bold mb-4 text-white">Comprehensive AI Readiness Evaluation Tools</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, idx) => (
-              <AnimatedContent key={idx}>
-                <div className="bg-light rounded-xl p-6 text-center shadow flex flex-col items-center justify-center">
-                  <div className="service-icon mb-4">{feature.icon}</div>
-                  <h4 className="font-bold mb-2">{feature.title}</h4>
-                  <p className="mb-4">{feature.description}</p>
-                  <Button onClick={() => navigate(feature.link)} className="bg-primary text-white">Learn More</Button>
-                </div>
-              </AnimatedContent>
-            ))}
-          </div>
-        </section>
-        {/* Quote Section */}
-        <section className="container mx-auto py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div>
-              <h5 className="text-primary text-lg font-bold mb-2">Request A Quote</h5>
-              <h2 className="text-3xl font-bold mb-4 text-white">Need A Free Quote? Please Feel Free to Contact Us</h2>
-              <ul className="mb-4 space-y-2">
-                <li className="flex items-center text-white"><i className="fa fa-reply text-primary mr-2" />Reply within 24 hours</li>
-                <li className="flex items-center text-white"><i className="fa fa-phone-alt text-primary mr-2" />24 hrs telephone support</li>
-              </ul>
-              <p className="mb-4 text-white">Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata takimata sanctus sed.</p>
-              <div className="flex items-center mt-2">
-                <div className="bg-primary rounded-full w-16 h-16 flex items-center justify-center mr-4"><i className="fa fa-phone-alt text-white text-2xl" /></div>
-                <div>
-                  <h5 className="mb-2 text-white">Call to ask any question</h5>
-                  <h4 className="text-primary mb-0">+012 345 6789</h4>
-                </div>
+            <div className="col-lg-5" style={{ minHeight: 500 }}>
+              <div className="position-relative h-100">
+                <img className="position-absolute w-100 h-100 rounded wow zoomIn" data-wow-delay="0.9s" src="/img/about.jpg" style={{ objectFit: 'cover' }} alt="About" />
               </div>
             </div>
-            <AnimatedContent>
-              <div className="bg-primary rounded-xl p-8 flex flex-col justify-center items-center">
-                <form className="w-full max-w-md">
-                  <input type="text" className="form-control bg-light border-0 mb-4 w-full p-3 rounded text-black" placeholder="Your Name" />
-                  <input type="email" className="form-control bg-light border-0 mb-4 w-full p-3 rounded text-black" placeholder="Your Email" />
-                  <select className="form-select bg-light border-0 mb-4 w-full p-3 rounded text-black">
-                    <option>Select A Service</option>
-                    <option value="1">Service 1</option>
-                    <option value="2">Service 2</option>
-                    <option value="3">Service 3</option>
-                  </select>
-                  <textarea className="form-control bg-light border-0 mb-4 w-full p-3 rounded text-black" rows={3} placeholder="Message"></textarea>
-                  <Button className="bg-dark text-white w-full py-3">Request A Quote</Button>
-                </form>
-              </div>
-            </AnimatedContent>
           </div>
-        </section>
-        {/* Footer Section */}
-        <footer className="bg-black text-light mt-5 py-8">
-          <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <AnimatedContent>
-              <div className="flex flex-col items-center justify-center text-center bg-primary p-4 rounded-xl">
-                <span className="text-white text-2xl font-bold flex items-center mb-2"><i className="fa fa-brain me-2" />AI Readiness</span>
+        </div>
+      </div>
+      {/* About End */}
+
+      {/* Seven Pillars Start */}
+      <div className="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s" id="pillars">
+        <div className="container py-5">
+          <div className="section-title text-center position-relative pb-3 mb-5 mx-auto" style={{ maxWidth: 600 }}>
+            <h5 className="fw-bold text-primary text-uppercase">Seven Critical Pillars</h5>
+            <h1 className="mb-0">Comprehensive AI Readiness Evaluation Framework</h1>
+          </div>
+          <div className="row g-5">
+            <div className="col-lg-4">
+              <div className="row g-5">
+                {[
+                  { icon: 'users', title: 'Organization Pillar', desc: 'Assess leadership commitment, change management capabilities, cultural readiness, and organizational structure for AI adoption' },
+                  { icon: 'cogs', title: 'Infrastructure Pillar', desc: 'Evaluate technical infrastructure, cloud readiness, security frameworks, and scalability capabilities' },
+                  { icon: 'database', title: 'Data Pillar', desc: 'Analyze data quality, governance practices, accessibility, and management capabilities for AI initiatives' },
+                  { icon: 'chart-line', title: 'Business Pillar', desc: 'Review strategic alignment, process optimization, value creation potential, and ROI considerations' },
+                  { icon: 'lightbulb', title: 'Innovation Pillar', desc: 'Evaluate innovation culture, R&D investment, and openness to new technologies' },
+                  { icon: 'shield-alt', title: 'Security & Ethics Pillar', desc: 'Assess data privacy, ethical AI practices, and regulatory compliance' },
+                  { icon: 'users-cog', title: 'Talent & Skills Pillar', desc: 'Review workforce skills, training programs, and talent acquisition strategies' }
+                ].map((p, idx) => (
+                  <div className="col-12 wow zoomIn" data-wow-delay={`${0.2 + idx * 0.1}s`} key={p.title}>
+                    <div className="bg-primary rounded d-flex align-items-center justify-content-center mb-3" style={{ width: 60, height: 60 }}>
+                      <i className={`fa fa-${p.icon} text-white`}></i>
+                    </div>
+                    <h4>{p.title}</h4>
+                    <p className="mb-0">{p.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="col-lg-4 wow zoomIn" data-wow-delay="0.9s" style={{ minHeight: 350 }}>
+              <div className="position-relative h-100">
+                <img className="position-absolute w-100 h-100 rounded wow zoomIn" data-wow-delay="0.1s" src="/img/feature.jpg" style={{ objectFit: 'cover' }} alt="Feature" />
+              </div>
+            </div>
+            <div className="col-lg-4"></div>
+          </div>
+        </div>
+      </div>
+      {/* Seven Pillars End */}
+
+      {/* Assessment Features Start */}
+      <div className="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div className="container py-5">
+          <div className="section-title text-center position-relative pb-3 mb-5 mx-auto" style={{ maxWidth: 600 }}>
+            <h5 className="fw-bold text-primary text-uppercase">Assessment Features</h5>
+            <h1 className="mb-0">Comprehensive AI Readiness Evaluation Tools</h1>
+          </div>
+          <div className="row g-5">
+            {[
+              { icon: 'chart-pie', title: 'Interactive Dashboard', desc: 'Visualize your AI readiness with radar charts, progress bars, and comprehensive scoring metrics', link: '/results' },
+              { icon: 'chart-bar', title: 'Industry Benchmarking', desc: 'Compare your scores against industry standards and see how you rank among peers', link: '/benchmarking' },
+              { icon: 'lightbulb', title: 'Smart Recommendations', desc: 'Get personalized action plans and recommendations based on your assessment results', link: '/recommendations' },
+              { icon: 'file-pdf', title: 'Detailed Reports', desc: 'Generate comprehensive PDF reports with detailed insights and actionable recommendations', link: '/report' },
+              { icon: 'tasks', title: 'Multi-Step Assessment', desc: 'Complete evaluation across 133+ questions covering all four critical AI readiness pillars', link: '/assessment' }
+            ].map((f, idx) => (
+              <div className={`col-lg-4 col-md-6 wow zoomIn`} data-wow-delay={`${(idx % 3 + 1) * 0.3}s`} key={f.title}>
+                <div className="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                  <div className="service-icon">
+                    <i className={`fa fa-${f.icon} text-white`}></i>
+                  </div>
+                  <h4 className="mb-3">{f.title}</h4>
+                  <p className="m-0">{f.desc}</p>
+                  <a className="btn btn-lg btn-primary rounded" href={f.link}>
+                    <i className="bi bi-arrow-right"></i>
+                  </a>
+                </div>
+              </div>
+            ))}
+            <div className="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.9s">
+              <div className="position-relative bg-primary rounded h-100 d-flex flex-column align-items-center justify-content-center text-center p-5">
+                <h3 className="text-white mb-3">Ready to Start?</h3>
+                <p className="text-white mb-3">Begin your AI readiness assessment journey and discover your organization's potential</p>
+                <a href="#" className="btn btn-light btn-lg" data-bs-toggle="modal" data-bs-target="#assessmentChoiceModal">Start Assessment</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Assessment Features End */}
+
+      {/* Footer Start */}
+      <div className="container-fluid bg-dark text-light mt-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div className="container">
+          <div className="row gx-5">
+            <div className="col-lg-4 col-md-6 footer-about">
+              <div className="d-flex flex-column align-items-center justify-content-center text-center h-100 bg-primary p-4">
+                <a href="/" className="navbar-brand">
+                  <h1 className="m-0 text-white"><i className="fa fa-brain me-2"></i>AI Readiness</h1>
+                </a>
                 <p className="mt-3 mb-4">AI Readiness Assessment Platform helps organizations evaluate and accelerate their AI adoption journey. Get actionable insights, benchmark your readiness, and receive personalized recommendations for success.</p>
-                <form className="w-full max-w-xs mx-auto">
-                  <div className="flex">
-                    <input type="text" className="form-control border-white p-3 rounded-l w-full" placeholder="Your Email" />
-                    <Button className="bg-dark text-white rounded-r">Subscribe</Button>
+                <form>
+                  <div className="input-group">
+                    <input type="text" className="form-control border-white p-3" placeholder="Your Email" />
+                    <button className="btn btn-dark" type="button">Subscribe</button>
                   </div>
                 </form>
               </div>
-            </AnimatedContent>
-            <div>
-              <h3 className="text-light font-bold mb-4">Get In Touch</h3>
-              <div className="flex items-center mb-2"><i className="fa bi-geo-alt text-primary mr-2" /><span>Abu Dhabi, UAE</span></div>
-              <div className="flex items-center mb-2"><i className="fa bi-envelope-open text-primary mr-2" /><span>info@example.com</span></div>
-              <div className="flex items-center mb-2"><i className="fa bi-telephone text-primary mr-2" /><span>+971 123 4567</span></div>
-              <div className="flex mt-4 gap-2">
-                <a className="btn btn-primary btn-square" href="mailto:info@example.com"><i className="fa fa-envelope" /></a>
-                <a className="btn btn-primary btn-square" href="tel:+9711234567"><i className="fa fa-phone" /></a>
-              </div>
             </div>
-            <div>
-              <h3 className="text-light mb-0 font-bold mb-4">Quick Links</h3>
-              <div className="flex flex-col gap-2">
-                <a className="text-light" href="#">Home</a>
-                <a className="text-light" href="#pillars">Seven Pillars</a>
-                <a className="text-light" href="/assessment">Assessment</a>
-                <a className="text-light" href="/dashboard">Dashboard</a>
-                <a className="text-light" href="/recommendations">Recommendations</a>
-                <a className="text-light" href="/contact">Contact</a>
-              </div>
-            </div>
-            <div>
-              <h3 className="text-light mb-0 font-bold mb-4">Popular Links</h3>
-              <div className="flex flex-col gap-2">
-                <a className="text-light" href="#">Home</a>
-                <a className="text-light" href="#pillars">Seven Pillars</a>
-                <a className="text-light" href="/assessment">Assessment</a>
-                <a className="text-light" href="/dashboard">Dashboard</a>
-                <a className="text-light" href="/recommendations">Recommendations</a>
-                <a className="text-light" href="/faq">FAQ</a>
-                <a className="text-light" href="/contact">Contact</a>
+            <div className="col-lg-8 col-md-6">
+              <div className="row gx-5">
+                <div className="col-lg-4 col-md-12 pt-5 mb-5">
+                  <div className="section-title section-title-sm position-relative pb-3 mb-4">
+                    <h3 className="text-light mb-0">Get In Touch</h3>
+                  </div>
+                  <div className="d-flex mb-2"><i className="bi bi-geo-alt text-primary me-2"></i><p className="mb-0">Abu Dhabi, UAE</p></div>
+                  <div className="d-flex mb-2"><i className="bi bi-envelope-open text-primary me-2"></i><p className="mb-0">info@example.com</p></div>
+                  <div className="d-flex mb-2"><i className="bi bi-telephone text-primary me-2"></i><p className="mb-0">+971 123 4567</p></div>
+                  <div className="d-flex mt-4">
+                    <a className="btn btn-primary btn-square me-2" href="#"><i className="fab fa-twitter fw-normal"></i></a>
+                    <a className="btn btn-primary btn-square me-2" href="#"><i className="fab fa-facebook-f fw-normal"></i></a>
+                    <a className="btn btn-primary btn-square me-2" href="#"><i className="fab fa-linkedin-in fw-normal"></i></a>
+                    <a className="btn btn-primary btn-square" href="#"><i className="fab fa-instagram fw-normal"></i></a>
+                  </div>
+                </div>
+                <div className="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
+                  <div className="section-title section-title-sm position-relative pb-3 mb-4">
+                    <h3 className="text-light mb-0">Quick Links</h3>
+                  </div>
+                  <div className="link-animated d-flex flex-column justify-content-start">
+                    <a className="text-light mb-2" href="/"><i className="bi bi-arrow-right text-primary me-2"></i>Home</a>
+                    <a className="text-light mb-2" href="#pillars"><i className="bi bi-arrow-right text-primary me-2"></i>Seven Pillars</a>
+                    <a className="text-light mb-2" href="/assessment"><i className="bi bi-arrow-right text-primary me-2"></i>Assessment</a>
+                    <a className="text-light mb-2" href="/results"><i className="bi bi-arrow-right text-primary me-2"></i>Dashboard</a>
+                    <a className="text-light mb-2" href="/recommendations"><i className="bi bi-arrow-right text-primary me-2"></i>Recommendations</a>
+                    <a className="text-light" href="#contact"><i className="bi bi-arrow-right text-primary me-2"></i>Contact</a>
+                  </div>
+                </div>
+                <div className="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
+                  <div className="section-title section-title-sm position-relative pb-3 mb-4">
+                    <h3 className="text-light mb-0">Popular Links</h3>
+                  </div>
+                  <div className="link-animated d-flex flex-column justify-content-start">
+                    <a className="text-light mb-2" href="/"><i className="bi bi-arrow-right text-primary me-2"></i>Home</a>
+                    <a className="text-light mb-2" href="#pillars"><i className="bi bi-arrow-right text-primary me-2"></i>Seven Pillars</a>
+                    <a className="text-light mb-2" href="/assessment"><i className="bi bi-arrow-right text-primary me-2"></i>Assessment</a>
+                    <a className="text-light mb-2" href="/results"><i className="bi bi-arrow-right text-primary me-2"></i>Dashboard</a>
+                    <a className="text-light mb-2" href="/recommendations"><i className="bi bi-arrow-right text-primary me-2"></i>Recommendations</a>
+                    <a className="text-light mb-2" href="/faq"><i className="bi bi-arrow-right text-primary me-2"></i>FAQ</a>
+                    <a className="text-light" href="#contact"><i className="bi bi-arrow-right text-primary me-2"></i>Contact</a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div className="container mx-auto text-center mt-8">
-            <p className="text-white">&copy; C DAC. All Rights Reserved.</p>
-          </div>
-        </footer>
-        {/* Back to Top Button */}
-        {showBackToTop && (
-          <button
-            onClick={scrollToTop}
-            className="fixed right-8 bottom-8 z-50 bg-amber-600 hover:bg-amber-700 text-white p-4 rounded-full shadow-lg transition-colors"
-          >
-            <ArrowUp className="w-6 h-6" />
-          </button>
-        )}
+        </div>
       </div>
-    </>
+      <div className="container-fluid text-white" style={{ background: '#3E2723' }}>
+        <div className="container text-center">
+          <div className="row justify-content-end">
+            <div className="col-lg-8 col-md-6">
+              <div className="d-flex align-items-center justify-content-center" style={{ height: 75 }}>
+                <p className="mb-0">&copy; <a className="text-white border-bottom" href="#">Digital Advice Consulting</a>. All Rights Reserved.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Footer End */}
+
+      {/* Back to Top */}
+      <a href="#" className="btn btn-lg btn-primary btn-lg-square rounded back-to-top"><i className="bi bi-arrow-up"></i></a>
+    </div>
   );
 };
 
-export default AIReadinessLanding;
+export default LandingPage;
