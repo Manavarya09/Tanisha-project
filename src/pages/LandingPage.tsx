@@ -96,6 +96,7 @@ const AIReadinessLanding = () => {
             </a>
             <div className="flex items-center gap-4">
               <Button onClick={() => navigate('/assessment')} className="bg-primary text-white">Start Assessment</Button>
+              <button onClick={() => navigate('/paid-assessment')} className="btn btn-dark px-4 py-2 rounded">Paid Assessment</button>
             </div>
           </div>
         </nav>
@@ -105,7 +106,10 @@ const AIReadinessLanding = () => {
             <div className="text-center max-w-2xl mx-auto">
               <h1 className="text-5xl font-bold text-white mb-6">AI Readiness Assessment Platform</h1>
               <p className="text-xl text-white mb-8">Comprehensive & Data-Driven AI Readiness Assessment for Organizations</p>
-              <Button onClick={() => navigate('/assessment')} className="bg-primary text-white text-lg px-8 py-3">Start Assessment</Button>
+              <div className="flex items-center justify-center gap-4">
+                <Button onClick={() => navigate('/assessment')} className="bg-primary text-white text-lg px-8 py-3">Start Assessment</Button>
+                <button onClick={() => navigate('/paid-assessment')} className="btn btn-dark text-lg px-8 py-3 rounded">Paid Assessment</button>
+              </div>
             </div>
           </div>
         </section>
@@ -130,7 +134,10 @@ const AIReadinessLanding = () => {
                   <h4 className="text-primary mb-0">133+ Assessment Questions</h4>
                 </div>
               </div>
-              <Button onClick={() => navigate('/assessment')} className="bg-primary text-white mt-4">Start Assessment</Button>
+              <div className="flex items-center gap-4 mt-4">
+                <Button onClick={() => navigate('/assessment')} className="bg-primary text-white">Start Assessment</Button>
+                <button onClick={() => navigate('/paid-assessment')} className="btn btn-dark px-4 py-2 rounded">Paid Assessment</button>
+              </div>
             </div>
             <div className="min-h-[400px] flex items-center justify-center">
               <img src="/public/vite.svg" alt="About" className="rounded-xl w-full h-full object-cover" />
