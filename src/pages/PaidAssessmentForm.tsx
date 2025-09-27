@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
@@ -7,14 +7,15 @@ import { Label } from '../components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { Progress } from '../components/ui/progress';
 import { ChevronLeft, ChevronRight, Building, Users, BarChart3, Server, CreditCard, Check } from 'lucide-react';
-import { assessmentQuestions, AssessmentData, parseAssessmentCSV, PillarQuestions } from '../utils/assessmentLogic';
+import { assessmentQuestions, AssessmentData, parseAssessmentCSV, PillarQuestions, parseAirtableCSVByRegion, PillarQuestionsUnique } from '../utils/assessmentLogic';
 import csvText from '../../AI_Readiness_Assessment_Core35.csv?raw';
-import { parseAssessmentCSVUnique, PillarQuestionsUnique } from '../utils/assessmentLogic';
+import airtableCsv from '../../Airtable AI Readiness File To Import (1).csv?raw';
+import { parseAssessmentCSVUnique } from '../utils/assessmentLogic';
 import AnimatedContent from '../components/AnimatedContent';
 import DarkVeil from '../components/DarkVeil';
 
 // Use the same pillar questions structure as the free assessment
-const pillarQuestions: PillarQuestionsUnique = parseAssessmentCSVUnique(csvText);
+// Questions will be built dynamically based on selected region
 
 export default function PaidAssessmentForm() {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ export default function PaidAssessmentForm() {
     companyName: '',
     industry: '',
     companySize: '',
+    region: 'Global',
     responses: {}
   });
 
@@ -103,7 +105,6 @@ export default function PaidAssessmentForm() {
 
   // Move to next step
   const handleNext = () => {
-    // Validate fields for company info step
     if (currentStep === 0) {
       if (!assessmentData.companyName || !assessmentData.industry || !assessmentData.companySize) {
         alert('Please fill in all required fields.');
@@ -115,7 +116,7 @@ export default function PaidAssessmentForm() {
       setCurrentStep(currentStep + 1);
       window.scrollTo(0, 0);
     } else {
-      // Final step - submit and go to results
+      localStorage.setItem('assessmentData', JSON.stringify(assessmentData));
       navigate('/results', { state: { assessmentData, isPremium: true } });
     }
   };
@@ -247,6 +248,13 @@ export default function PaidAssessmentForm() {
     );
   }
 
+  const region = assessmentData.region || 'Global';
+  const pillarQuestions: PillarQuestionsUnique = useMemo(() => {
+    const pq = parseAirtableCSVByRegion(airtableCsv, region);
+    const fallback = parseAssessmentCSVUnique(csvText);
+    return { ...fallback, ...pq };
+  }, [region]);
+
   // Render assessment form (similar to free version)
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 text-white">
@@ -333,6 +341,25 @@ export default function PaidAssessmentForm() {
                       </SelectContent>
                     </Select>
                   </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="region">Region</Label>
+                    <Select
+                      value={assessmentData.region}
+                      onValueChange={(value) => handleChange('region' as any, value)}
+                    >
+                      <SelectTrigger id="region" className="bg-slate-800 border-slate-700">
+                        <SelectValue placeholder="Select your region" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Global">Global</SelectItem>
+                        <SelectItem value="Middle East">Middle East</SelectItem>
+                        <SelectItem value="Europe">Europe</SelectItem>
+                        <SelectItem value="EU">EU</SelectItem>
+                        <SelectItem value="ME">ME</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </CardContent>
               </Card>
             ) : (
@@ -341,7 +368,7 @@ export default function PaidAssessmentForm() {
                 <CardHeader>
                   <div className="flex items-center space-x-2">
                     <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
-                      {steps[currentStep].icon && <steps[currentStep].icon size={20} className="text-blue-400" />}
+                      {(() => { const Icon = steps[currentStep].icon; return <Icon size={20} className="text-blue-400" />; })()}
                     </div>
                     <div>
                       <CardTitle className="text-2xl font-bold">{steps[currentStep].title}</CardTitle>
@@ -356,29 +383,29 @@ export default function PaidAssessmentForm() {
                         <h3 className="text-xl font-semibold">{subcategory}</h3>
                         
                         {questions.map((question, qIndex) => (
-                          <div key={question.id} className="space-y-3 border-l-2 border-blue-500/30 pl-4 py-2">
+                          <div key={question.question} className="space-y-3 border-l-2 border-blue-500/30 pl-4 py-2">
                             <h4 className="text-lg font-medium">{question.question}</h4>
-                            
+
                             <div className="grid gap-2">
                               {[1, 2, 3, 4, 5].map(value => (
                                 <div
-                                  key={`${question.id}-${value}`}
+                                  key={`${question.question}-${value}`}
                                   className={`p-4 rounded-lg border cursor-pointer transition-all ${
-                                    assessmentData.responses[question.id] === value
+                                    assessmentData.responses[question.question] === value
                                       ? 'border-blue-500 bg-blue-500/20'
                                       : 'border-slate-700 bg-slate-800/50 hover:bg-slate-800'
                                   }`}
-                                  onClick={() => handleResponseChange(question.id, value)}
+                                  onClick={() => handleResponseChange(question.question, value)}
                                 >
                                   <div className="flex items-center">
                                     <div
                                       className={`w-5 h-5 rounded-full border mr-3 flex items-center justify-center ${
-                                        assessmentData.responses[question.id] === value
+                                        assessmentData.responses[question.question] === value
                                           ? 'border-blue-500 bg-blue-500'
                                           : 'border-slate-500'
                                       }`}
                                     >
-                                      {assessmentData.responses[question.id] === value && (
+                                      {assessmentData.responses[question.question] === value && (
                                         <Check size={12} className="text-white" />
                                       )}
                                     </div>
