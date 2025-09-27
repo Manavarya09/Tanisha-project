@@ -35,7 +35,7 @@ const LandingPage: React.FC = () => {
               <a href="#contact" className="nav-item nav-link">Contact</a>
             </div>
             <button type="button" className="btn text-primary ms-3" data-bs-toggle="modal" data-bs-target="#searchModal"><i className="fa fa-search"></i></button>
-            <a href="/assessment" className="btn btn-primary py-2 px-4 ms-3">Start Assessment</a>
+            <a href="#" className="btn btn-primary py-2 px-4 ms-3" data-bs-toggle="modal" data-bs-target="#assessmentChoiceModal">Start Assessment</a>
           </div>
         </nav>
 
@@ -47,7 +47,7 @@ const LandingPage: React.FC = () => {
                 <div className="p-3" style={{ maxWidth: 900 }}>
                   <h5 className="text-white text-uppercase mb-3 animated slideInDown">Comprehensive & Data-Driven</h5>
                   <h1 className="display-1 text-white mb-md-4 animated zoomIn">AI Readiness Assessment Platform</h1>
-                  <a href="/assessment" className="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Start Assessment</a>
+                  <a href="#" className="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" data-bs-toggle="modal" data-bs-target="#assessmentChoiceModal">Start Assessment</a>
                   <a href="#pillars" className="btn btn-outline-light py-md-3 px-md-5 animated slideInRight">Learn More</a>
                 </div>
               </div>
@@ -58,7 +58,7 @@ const LandingPage: React.FC = () => {
                 <div className="p-3" style={{ maxWidth: 900 }}>
                   <h5 className="text-white text-uppercase mb-3 animated slideInDown">Seven Critical Pillars</h5>
                   <h1 className="display-1 text-white mb-md-4 animated zoomIn">Evaluate Your Organization's AI Readiness</h1>
-                  <a href="/assessment" className="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Begin Evaluation</a>
+                  <a href="#" className="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" data-bs-toggle="modal" data-bs-target="#assessmentChoiceModal">Begin Evaluation</a>
                   <a href="/benchmarking" className="btn btn-outline-light py-md-3 px-md-5 animated slideInRight">View Benchmarks</a>
                 </div>
               </div>
@@ -87,6 +87,25 @@ const LandingPage: React.FC = () => {
               <div className="input-group" style={{ maxWidth: 600 }}>
                 <input type="text" className="form-control bg-transparent border-primary p-3" placeholder="Type search keyword" />
                 <button className="btn btn-primary px-4"><i className="bi bi-search"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Assessment Choice Modal */}
+      <div className="modal fade" id="assessmentChoiceModal" tabIndex={-1} aria-labelledby="assessmentChoiceModalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="assessmentChoiceModalLabel">Choose Assessment Type</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              <p className="mb-4">Select how you want to proceed with your AI readiness assessment.</p>
+              <div className="d-grid gap-3">
+                <a href="/assessment" className="btn btn-primary btn-lg" data-bs-dismiss="modal">Free Assessment</a>
+                <a href="/paid-assessment" className="btn btn-dark btn-lg" data-bs-dismiss="modal">Paid Assessment</a>
               </div>
             </div>
           </div>
@@ -122,7 +141,7 @@ const LandingPage: React.FC = () => {
                   <h4 className="text-primary mb-0">133+ Assessment Questions</h4>
                 </div>
               </div>
-              <a href="/assessment" className="btn btn-primary py-3 px-5 mt-3 wow zoomIn" data-wow-delay="0.9s">Start Assessment</a>
+              <a href="#" className="btn btn-primary py-3 px-5 mt-3 wow zoomIn" data-wow-delay="0.9s" data-bs-toggle="modal" data-bs-target="#assessmentChoiceModal">Start Assessment</a>
             </div>
             <div className="col-lg-5" style={{ minHeight: 500 }}>
               <div className="position-relative h-100">
@@ -206,7 +225,7 @@ const LandingPage: React.FC = () => {
               <div className="position-relative bg-primary rounded h-100 d-flex flex-column align-items-center justify-content-center text-center p-5">
                 <h3 className="text-white mb-3">Ready to Start?</h3>
                 <p className="text-white mb-3">Begin your AI readiness assessment journey and discover your organization's potential</p>
-                <a href="/assessment" className="btn btn-light btn-lg">Start Assessment</a>
+                <a href="#" className="btn btn-light btn-lg" data-bs-toggle="modal" data-bs-target="#assessmentChoiceModal">Start Assessment</a>
               </div>
             </div>
           </div>
