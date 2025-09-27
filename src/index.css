@@ -84,3 +84,22 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Paid assessment button styles (from provided template) */
+.btn {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  transition: .5s;
+}
+
+.btn-dark {
+  background-color: #3E2723;
+  border-color: #3E2723;
+  color: #fff;
+}
+
+.btn-dark:hover {
+  background-color: #B8956A;
+  border-color: #B8956A;
+  color: #fff;
+}
